@@ -1,0 +1,10 @@
+{:itonami.blueprint/id "cloud-itonami-isco-1439"
+ :itonami.blueprint/name "Independent Services Management Practice"
+ :itonami.blueprint/isco-08 "1439"
+ :itonami.blueprint/domain :management/services-management
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:local-jobs :accountability :small-business-support]
+ :itonami.blueprint/governor :services-management-governor
+ :itonami.blueprint/robotics true
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss}
