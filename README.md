@@ -61,17 +61,17 @@ human-in-the-loop interrupt/resume via checkpointing.
                                            +-> :hold               (:hard? true)
 ```
 
-- `src/services_management/store.cljc` — `Store` protocol +
+- `src/services_management/store.kotoba` — `Store` protocol +
   `MemStore`: registered clients, committed records, an append-only
   audit ledger.
-- `src/services_management/advisor.cljc` — `Advisor` protocol;
+- `src/services_management/advisor.kotoba` — `Advisor` protocol;
   `mock-advisor` (deterministic, default) proposes a services operation
   from a request; `llm-advisor` wraps a `langchain.model/ChatModel` —
   either way the advisor only ever produces a `:propose`-effect
   proposal, never a committed record, and LLM parse failures always
   yield `confidence 0.0` (forces escalation, never fabricated
   confidence).
-- `src/services_management/governor.cljc` —
+- `src/services_management/governor.kotoba` —
   `ServicesManagementGovernor/check`: a pure function, wired as its own
   `:govern` node. Hard invariants (unregistered client, a proposal
   whose `:effect` isn't `:propose`) always route to `:hold`. Escalation
@@ -82,7 +82,7 @@ human-in-the-loop interrupt/resume via checkpointing.
   robotics-premise statement that clearing a service-quality failure
   without review and approving a client-contract exception always
   require human sign-off.
-- `src/services_management/actor.cljc` — `build-graph`,
+- `src/services_management/actor.kotoba` — `build-graph`,
   `run-request!`, `approve!`: the `langgraph.graph/state-graph` wiring
   itself.
 
