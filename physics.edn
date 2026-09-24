@@ -1,0 +1,32 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a site-walkthrough robot performs service-quality
+;; checklist inspection and evidence capture for services managers (ISCO
+;; 1439). Its physical work: driving the inspection round through the site, and
+;; raising a camera on its arm to photograph fixtures overhead as evidence.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-1439"
+ :cases
+ [{:id :inspection-round-leg
+   :kind :transport
+   :procedure "inspection robot drives one leg of the service-quality walkthrough between checkpoints"
+   :params {:mass-kg 35.0 :payload-kg 3.0 :v-max-mps 1.0 :a-max-mps2 0.5
+            :brake-decel-mps2 1.0 :drive-force-n 120.0 :crr 0.02
+            :cog-height-m 0.5 :support-half-length-m 0.22}
+   :sweep {:param :distance-m :values [25.0 50.0 100.0 200.0 400.0]}
+   :quantity :cycle-time-s
+   :limit {:max 180.0 :basis "estimate: 3 minutes per checkpoint leg keeps a 10-checkpoint round inside a 30-minute inspection slot"}
+   :boundary {:lo 5.0 :hi 600.0}}
+  {:id :evidence-camera-raise
+   :kind :manipulator
+   :procedure "arm raises the evidence camera from its stowed pose to photograph a ceiling fixture"
+   :params {:l1-m 0.60 :l2-m 0.55 :m1-kg 3.0 :m2-kg 2.0
+            :from [0.30 0.10] :to [0.20 1.05] :duration-s 2.0 :steps 500}
+   :sweep {:param :payload-kg :values [0.3 0.6 1.0 1.5 2.5]}
+   :quantity :peak-tau1-nm
+   :limit {:max 45.0 :basis "estimate: continuous shoulder torque of a light arm on a mobile inspection base"}
+   :boundary {:lo 0.05 :hi 15.0}}]}
